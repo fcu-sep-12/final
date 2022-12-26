@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,5 +79,22 @@ class ForumApplicationTests {
 		assertEquals(data2.get(2).nickname, "H");
 		assertEquals(data2.get(2).body, "aaaa");
 		assertEquals(data2.get(2).id, 2);
+	}
+
+	@Test
+	void apiCommentsDelete() throws Exception {
+		mockMvc.perform(delete("/api/comments/0"))
+				.andExpect(status().isOk())
+				.andExpect(content().string("{}"));
+				MvcResult result = mockMvc.perform(get("/api/comments"))
+				.andExpect(status().isOk())
+				.andDo(MockMvcResultHandlers.print())
+				.andReturn();
+		String content = result.getResponse().getContentAsString();
+		TypeToken<List<Comment>> mapType = new TypeToken<List<Comment>>() {};
+		List<Comment> data = new Gson().fromJson(content, mapType);
+		assertEquals(data.get(0).nickname, "test2");
+		assertEquals(data.get(0).body, "hi2");
+		assertEquals(data.get(0).id, 1);
 	}
 }
