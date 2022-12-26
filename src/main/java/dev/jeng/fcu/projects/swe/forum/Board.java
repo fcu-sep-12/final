@@ -8,13 +8,13 @@ public class Board {
     public String name;
     private List<Comment> comments;
 
-    public Board(String name){
+    public Board(String name) {
         this.name = name;
         this.comments = new ArrayList<>();
         this.id = States.Boards.size();
     }
 
-    public List<Comment> listComment(){
+    public List<Comment> listComment() {
         return this.comments;
     }
 }

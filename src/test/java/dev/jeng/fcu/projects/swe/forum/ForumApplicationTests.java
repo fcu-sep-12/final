@@ -44,7 +44,8 @@ class ForumApplicationTests {
 				.andDo(MockMvcResultHandlers.print())
 				.andReturn();
 		String content = result.getResponse().getContentAsString();
-		TypeToken<List<Comment>> mapType = new TypeToken<List<Comment>>() {};
+		TypeToken<List<Comment>> mapType = new TypeToken<List<Comment>>() {
+		};
 		List<Comment> data = new Gson().fromJson(content, mapType);
 		assertEquals(data.get(0).nickname, "test");
 		assertEquals(data.get(0).body, "hi");
@@ -56,9 +57,10 @@ class ForumApplicationTests {
 
 	@Test
 	void apiCommentsPost() throws Exception {
-		final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+		final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
+				MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 		MvcResult result = mockMvc.perform(post("/api/comments").contentType(APPLICATION_JSON_UTF8)
-        .content("{\"nickname\":\"H\",\"body\":\"aaaa\"}"))
+				.content("{\"nickname\":\"H\",\"body\":\"aaaa\"}"))
 				.andExpect(status().isOk())
 				.andDo(MockMvcResultHandlers.print())
 				.andReturn();
@@ -71,7 +73,8 @@ class ForumApplicationTests {
 				.andDo(MockMvcResultHandlers.print())
 				.andReturn();
 		String content2 = result2.getResponse().getContentAsString();
-		TypeToken<List<Comment>> mapType = new TypeToken<List<Comment>>() {};
+		TypeToken<List<Comment>> mapType = new TypeToken<List<Comment>>() {
+		};
 		List<Comment> data2 = new Gson().fromJson(content2, mapType);
 		assertEquals(data2.get(2).nickname, "H");
 		assertEquals(data2.get(2).body, "aaaa");
@@ -83,12 +86,13 @@ class ForumApplicationTests {
 		mockMvc.perform(delete("/api/comments/0"))
 				.andExpect(status().isOk())
 				.andExpect(content().string("{}"));
-				MvcResult result = mockMvc.perform(get("/api/comments"))
+		MvcResult result = mockMvc.perform(get("/api/comments"))
 				.andExpect(status().isOk())
 				.andDo(MockMvcResultHandlers.print())
 				.andReturn();
 		String content = result.getResponse().getContentAsString();
-		TypeToken<List<Comment>> mapType = new TypeToken<List<Comment>>() {};
+		TypeToken<List<Comment>> mapType = new TypeToken<List<Comment>>() {
+		};
 		List<Comment> data = new Gson().fromJson(content, mapType);
 		assertEquals(data.get(0).nickname, "test2");
 		assertEquals(data.get(0).body, "hi2");
@@ -97,28 +101,32 @@ class ForumApplicationTests {
 
 	@Test
 	void apiLoginSuccess() throws Exception {
-		final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+		final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
+				MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 		MvcResult result = mockMvc.perform(post("/api/login").contentType(APPLICATION_JSON_UTF8)
-        .content("{\"username\":\"test\",\"password\":\"test123\"}"))
+				.content("{\"username\":\"test\",\"password\":\"test123\"}"))
 				.andExpect(status().isOk())
 				.andDo(MockMvcResultHandlers.print())
 				.andReturn();
 		String content = result.getResponse().getContentAsString();
-		TypeToken<HashMap<String, Object>> mapType = new TypeToken<HashMap<String, Object>>() {};
+		TypeToken<HashMap<String, Object>> mapType = new TypeToken<HashMap<String, Object>>() {
+		};
 		HashMap<String, Object> data = new Gson().fromJson(content, mapType);
 		assertEquals(data.get("success"), true);
 	}
 
 	@Test
 	void apiLoginFail() throws Exception {
-		final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+		final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
+				MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 		MvcResult result = mockMvc.perform(post("/api/login").contentType(APPLICATION_JSON_UTF8)
-        .content("{\"username\":\"test\",\"password\":\"incorrect-password\"}"))
+				.content("{\"username\":\"test\",\"password\":\"incorrect-password\"}"))
 				.andExpect(status().isOk())
 				.andDo(MockMvcResultHandlers.print())
 				.andReturn();
 		String content = result.getResponse().getContentAsString();
-		TypeToken<HashMap<String, Object>> mapType = new TypeToken<HashMap<String, Object>>() {};
+		TypeToken<HashMap<String, Object>> mapType = new TypeToken<HashMap<String, Object>>() {
+		};
 		HashMap<String, Object> data = new Gson().fromJson(content, mapType);
 		assertEquals(data.get("success"), false);
 	}
