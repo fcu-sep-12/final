@@ -31,10 +31,6 @@ class ForumApplicationTests {
 	private MockMvc mockMvc;
 
 	@Test
-	void contextLoads() {
-	}
-
-	@Test
 	void apiBoardsList() throws Exception {
 		mockMvc.perform(get("/api/boards/list"))
 				.andExpect(status().isOk())
