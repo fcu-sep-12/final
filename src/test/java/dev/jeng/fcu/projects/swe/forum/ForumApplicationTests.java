@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.List;
 
 @AutoConfigureMockMvc
@@ -96,5 +97,33 @@ class ForumApplicationTests {
 		assertEquals(data.get(0).nickname, "test2");
 		assertEquals(data.get(0).body, "hi2");
 		assertEquals(data.get(0).id, 1);
+	}
+
+	@Test
+	void apiLoginSuccess() throws Exception {
+		final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+		MvcResult result = mockMvc.perform(post("/api/login").contentType(APPLICATION_JSON_UTF8)
+        .content("{\"username\":\"test\",\"password\":\"test123\"}"))
+				.andExpect(status().isOk())
+				.andDo(MockMvcResultHandlers.print())
+				.andReturn();
+		String content = result.getResponse().getContentAsString();
+		TypeToken<HashMap<String, Object>> mapType = new TypeToken<HashMap<String, Object>>() {};
+		HashMap<String, Object> data = new Gson().fromJson(content, mapType);
+		assertEquals(data.get("success"), true);
+	}
+
+	@Test
+	void apiLoginFail() throws Exception {
+		final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+		MvcResult result = mockMvc.perform(post("/api/login").contentType(APPLICATION_JSON_UTF8)
+        .content("{\"username\":\"test\",\"password\":\"incorrect-password\"}"))
+				.andExpect(status().isOk())
+				.andDo(MockMvcResultHandlers.print())
+				.andReturn();
+		String content = result.getResponse().getContentAsString();
+		TypeToken<HashMap<String, Object>> mapType = new TypeToken<HashMap<String, Object>>() {};
+		HashMap<String, Object> data = new Gson().fromJson(content, mapType);
+		assertEquals(data.get("success"), false);
 	}
 }
