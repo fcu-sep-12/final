@@ -1,0 +1,51 @@
+POST /api/login
+Request: {"username": string, "password": string}
+Response: {"success": true, "token": string}, {"success": false, "message": string}
+username - Username of user
+password - SHA256 hashed password
+token - Access token, required for every authencated API calls
+message - Error message from the server, could be displayed to client
+
+GET /api/logout
+HEADERS:
+    access-token: string
+Response: {"success": true}, {"success": false, "message": stirng}
+access-token - Access token, required for every authencated API calls
+message - Error message from the server, could be displayed to client
+
+GET /api/boards/list
+Response: {"success": true, "boards": [{"id": unsigned-int, "name": string}]}, {"success": false, "message": string}
+boards - List of board name and board id.
+    id - Board ID
+    name - Board name
+message - Error message from the server, could be displayed to client
+
+GET /api/comment/list?board=string
+Response: {"success": true, "comments": [{"username": string, "body", string}]}, {"success": false, "message": string}
+board - Board id of the board to list the comment
+comments - List of comments on the requested board
+    username - Username of user that posted the comment
+    body - Body of comment
+message - Error message from the server, could be displayed to client
+
+POST /api/comment/create
+HEADERS:
+    access-token: string
+Request: {"board": unsigned-int, "body": string}
+Response: {"success": true, "id": unsigned-int}, {"success": false, "message": string}
+access-token - Access token, required for every authencated API calls
+board - Board ID of board to post the comment to
+body - Body of comment
+id - ID of comment that has just been created
+message - Error message from the server, could be displayed to client
+
+POST /api/comment/edit
+HEADERS:
+    access-token: string
+Request: {"board": unsigned-int, "id": unsigned-int, "body": string}
+Response: {"success": true, "id": unsigned-int}, {"success": false, "message": string}
+access-token - Access token, required for every authencated API calls
+board - Board ID of board that has the comment to edit
+id - ID of comment to be edited
+body - Body of comment
+message - Error message from the server, could be displayed to client
